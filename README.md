@@ -21,6 +21,7 @@
 - React 18
 - TypeScript
 - Банк із 121 завдання — у `src/data/questions.ts`
+
 ## Локальний запуск
 
 ```bash
@@ -36,3 +37,11 @@ npm run dev
 npm run build
 npm run start
 ```
+
+## Деплой на Vercel
+
+1. Запушуй репозиторій на GitHub.
+2. На [vercel.com](https://vercel.com) увійди через «Continue with GitHub».
+3. **Add New → Project** → обери репозиторій `nmt-test` → **Import**.
+4. Нічого не змінюй (Next.js визначається автоматично) → **Deploy**.
+5. Готово: посилання виглядає як `https://nmt-test-<id>.vercel.app`.
