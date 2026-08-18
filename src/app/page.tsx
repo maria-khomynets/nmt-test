@@ -2,35 +2,25 @@
 
 import { useState } from 'react';
 import StartScreen from '../components/StartScreen';
-import TopicSelect from '../components/TopicSelect';
 import Quiz from '../components/Quiz';
 import Result from '../components/Result';
 import { questions } from '../data/questions';
 import { shuffle } from '../lib/utils';
-import type { Question, QuizResult, TopicId } from '../types';
+import type { Question, QuizResult } from '../types';
 
 const FULL_LIMIT = 120 * 60; // 120 хвилин
 const FULL_COUNT = 22;
-const PRACTICE_COUNT = 10;
 
-type View = 'home' | 'topics' | 'quiz' | 'result';
+type View = 'home' | 'quiz' | 'result';
 
 export default function Home() {
   const [view, setView] = useState<View>('home');
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
-  const [timeLimit, setTimeLimit] = useState<number | null>(null);
   const [result, setResult] = useState<QuizResult | null>(null);
 
-  function startFull() {
+  function startTest() {
     setQuizQuestions(shuffle(questions).slice(0, FULL_COUNT));
-    setTimeLimit(FULL_LIMIT);
-    setView('quiz');
-  }
-
-  function startPractice(topicId: TopicId) {
-    const pool = questions.filter((q) => q.topic === topicId);
-    setQuizQuestions(shuffle(pool).slice(0, Math.min(PRACTICE_COUNT, pool.length)));
-    setTimeLimit(null);
+    setResult(null);
     setView('quiz');
   }
 
@@ -43,32 +33,22 @@ export default function Home() {
     <div className="container">
       <header className="header">
         <span className="app-badge">НМТ · Математика · 2026</span>
-        <h1>📐 Тести з математики</h1>
-        <p>Готуйся до НМТ: повний тест або тест по темах</p>
+        <h1>📐 Тест з математики</h1>
+        <p>Повний тест у форматі НМТ: 22 завдання · 120 хвилин</p>
       </header>
 
-      {view === 'home' && (
-        <StartScreen
-          onStartFull={startFull}
-          onStartPractice={() => setView('topics')}
-        />
-      )}
-
-      {view === 'topics' && <TopicSelect onSelect={startPractice} onBack={() => setView('home')} />}
+      {view === 'home' && <StartScreen onStart={startTest} />}
 
       {view === 'quiz' && (
-        <Quiz questions={quizQuestions} timeLimit={timeLimit} onFinish={finishQuiz} />
+        <Quiz questions={quizQuestions} timeLimit={FULL_LIMIT} onFinish={finishQuiz} />
       )}
 
       {view === 'result' && result && (
         <Result
           answers={result.answers}
           timeLeft={result.timeLeft}
-          timeLimit={timeLimit}
-          onRestart={() => {
-            setQuizQuestions(shuffle(quizQuestions.map((q) => q)));
-            setView('quiz');
-          }}
+          timeLimit={FULL_LIMIT}
+          onRestart={startTest}
           onHome={() => {
             setView('home');
             setResult(null);

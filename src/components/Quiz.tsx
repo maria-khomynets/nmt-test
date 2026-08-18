@@ -83,13 +83,9 @@ export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
           <span>
             Завдання {current + 1} з {questions.length}
           </span>
-          {timeLimit ? (
-            <span className={`timer${timeLeft < 300 ? ' warning' : ''}`}>
-              ⏱ {formatTime(timeLeft)}
-            </span>
-          ) : (
-            <span className="timer">{q.level}</span>
-          )}
+          <span className={`timer${timeLeft < 300 ? ' warning' : ''}`}>
+            ⏱ {formatTime(timeLeft)}
+          </span>
         </div>
         <div className="progress-bar">
           <div style={{ width: `${progress}%` }} />
@@ -139,11 +135,7 @@ export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
         )}
       </div>
 
-      <p className="note">
-        {timeLimit
-          ? 'Час спливає автоматично — відповіді збережуться.'
-          : 'Відповідай без поспіху — таймера в тесті по темах немає.'}
-      </p>
+      <p className="note">Час спливає автоматично — відповіді збережуться.</p>
     </>
   );
 }
