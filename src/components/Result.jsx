@@ -4,9 +4,6 @@ import { topicTitle } from '../data/topics';
 const LETTERS = ['А', 'Б', 'В', 'Г'];
 
 function formatAnswer(q, chosen) {
-  if (q.type === 'input') {
-    return `Відповідь: ${chosen}`;
-  }
   return `Варіант ${LETTERS[chosen]}`;
 }
 

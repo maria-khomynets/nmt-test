@@ -6,7 +6,6 @@ const LETTERS = ['А', 'Б', 'В', 'Г'];
 export default function Quiz({ questions, timeLimit, onFinish }) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState(null);
-  const [inputValue, setInputValue] = useState('');
   const [answered, setAnswered] = useState(false);
   const [timeLeft, setTimeLeft] = useState(timeLimit);
   const [answers, setAnswers] = useState([]);
@@ -35,21 +34,16 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
   }, [timeLeft]);
 
   const q = questions[current];
-  const isChoice = q.type === 'choice';
-  const isCorrect =
-    isChoice
-      ? selected === q.answer
-      : inputValue.trim().replace(',', '.') === q.answer;
+  const isCorrect = selected === q.answer;
 
   function submitAnswer() {
-    if (answered) return;
-    if (!isChoice && inputValue.trim() === '') return;
+    if (answered || selected === null) return;
     setAnswered(true);
     setAnswers((prev) => [
       ...prev,
       {
         question: q,
-        chosen: isChoice ? selected : inputValue.trim(),
+        chosen: selected,
         correct: isCorrect,
       },
     ]);
@@ -59,7 +53,6 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
     if (current + 1 < questions.length) {
       setCurrent(current + 1);
       setSelected(null);
-      setInputValue('');
       setAnswered(false);
     } else {
       finishQuiz(answers);
@@ -73,17 +66,6 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
 
   const answeredCount = answered ? answers.length + 1 : answers.length;
   const progress = Math.round((answeredCount / questions.length) * 100);
-
-  const effectiveAnswers = answered
-    ? [
-        ...answers,
-        {
-          question: q,
-          chosen: isChoice ? selected : inputValue.trim(),
-          correct: isCorrect,
-        },
-      ]
-    : answers;
 
   return (
     <>
@@ -106,44 +88,29 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
 
         <p className="question-text">{q.question}</p>
 
-        {isChoice ? (
-          <div className="options">
-            {q.options.map((opt, i) => {
-              let cls = 'option';
-              if (answered) {
-                if (i === q.answer) cls += ' correct';
-                else if (i === selected) cls += ' wrong';
-              }
-              return (
-                <button
-                  key={i}
-                  className={cls}
-                  disabled={answered}
-                  onClick={() => setSelected(i)}
-                >
-                  <span className="letter">{LETTERS[i]}</span>
-                  <span>{opt}</span>
-                </button>
-              );
-            })}
-          </div>
-        ) : (
-          <input
-            className="input-answer"
-            type="text"
-            inputMode="numeric"
-            disabled={answered}
-            placeholder="Введіть відповідь…"
-            value={inputValue}
-            onChange={(e) => setInputValue(e.target.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') submitAnswer();
-            }}
-          />
-        )}
+        <div className="options">
+          {q.options.map((opt, i) => {
+            let cls = 'option';
+            if (answered) {
+              if (i === q.answer) cls += ' correct';
+              else if (i === selected) cls += ' wrong';
+            }
+            return (
+              <button
+                key={i}
+                className={cls}
+                disabled={answered}
+                onClick={() => setSelected(i)}
+              >
+                <span className="letter">{LETTERS[i]}</span>
+                <span>{opt}</span>
+              </button>
+            );
+          })}
+        </div>
 
         {!answered && (
-          <button className="btn" onClick={submitAnswer} disabled={isChoice && selected === null}>
+          <button className="btn" onClick={submitAnswer} disabled={selected === null}>
             Відповісти
           </button>
         )}
@@ -166,7 +133,7 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
       <p className="note">
         {timeLimit
           ? 'Час спливає автоматично — відповіді збережуться.'
-          : 'Відповідай без поспіху — таймера в тренуванні немає.'}
+          : 'Відповідай без поспіху — таймера в тесті по темах немає.'}
       </p>
     </>
   );
