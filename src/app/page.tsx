@@ -2,8 +2,8 @@
 
 import { useState } from 'react';
 import StartScreen from '../components/StartScreen';
-import Quiz from '../components/Quiz';
-import Result from '../components/Result';
+import Quiz from '../components/Quiz/Quiz';
+import Result from '../components/Result/Result';
 import { questions } from '../data/questions';
 import { shuffle } from '../lib/utils';
 import type { Question, QuizResult, TopicId } from '../types';
