@@ -39,14 +39,13 @@ export default function Result({
   return (
     <>
       <div className="card result-score">
-        <div className="big">
-          {correct} / {total}
+        <div className="big">{percent}%</div>
+        <div className="correct-count">
+          {correct} правильних із {total}
         </div>
-        <div className="sub">
-          {percent}% · {levelText}
-        </div>
+        <div className="sub">{levelText}</div>
         {timeLimit != null && (
-          <div className="sub">Витрачено часу: {formatTime(timeLimit - timeLeft)}</div>
+          <div className="sub">⏱ Витрачено часу: {formatTime(timeLimit - timeLeft)}</div>
         )}
         <div className="btn-group" style={{ marginTop: 20 }}>
           <button className="btn" onClick={onRestart}>

@@ -1,3 +1,4 @@
+import type { CSSProperties } from 'react';
 import { topics } from '../data/topics';
 import { questions } from '../data/questions';
 import type { TopicId } from '../types';
@@ -23,10 +24,12 @@ export default function TopicSelect({ onSelect, onBack }: TopicSelectProps) {
             <div
               key={t.id}
               className="topic-card"
-              style={{ borderTop: `4px solid ${t.color}` }}
+              style={{ '--topic-color': t.color } as CSSProperties}
               onClick={() => onSelect(t.id)}
             >
+              <div className="topic-emoji">{t.emoji}</div>
               <div className="topic-title">{t.title}</div>
+              <div className="topic-desc">{t.description}</div>
               <div className="topic-count">{countByTopic(t.id)} завдань</div>
             </div>
           ))}

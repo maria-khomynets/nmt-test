@@ -6,36 +6,42 @@ export const topics: Topic[] = [
     title: 'Числа і вирази',
     description: 'Дроби, степені, корені, відсотки, властивості чисел',
     color: '#3b82f6',
+    emoji: '🔢',
   },
   {
     id: 'equations',
     title: 'Рівняння і нерівності',
     description: 'Лінійні, квадратні рівняння, системи, нерівності',
     color: '#8b5cf6',
+    emoji: '⚖️',
   },
   {
     id: 'functions',
     title: 'Функції',
     description: 'Графіки, області визначення, властивості функцій',
     color: '#10b981',
+    emoji: '📈',
   },
   {
     id: 'geometry',
     title: 'Геометрія',
     description: 'Планіметрія, стереометрія, тригонометрія, об\'єми',
     color: '#f59e0b',
+    emoji: '📐',
   },
   {
     id: 'probability',
     title: 'Ймовірність і статистика',
     description: 'Класична ймовірність, комбінаторика, статистика',
     color: '#ef4444',
+    emoji: '🎲',
   },
   {
     id: 'word',
     title: 'Текстові задачі',
     description: 'Рух, робота, суміші, відсоткові задачі',
     color: '#06b6d4',
+    emoji: '🧮',
   },
 ];
 

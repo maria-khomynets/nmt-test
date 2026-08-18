@@ -42,7 +42,8 @@ export default function Home() {
   return (
     <div className="container">
       <header className="header">
-        <h1>📐 Тести НМТ з математики</h1>
+        <span className="app-badge">НМТ · Математика · 2026</span>
+        <h1>📐 Тести з математики</h1>
         <p>Готуйся до НМТ: повний тест або тест по темах</p>
       </header>
 

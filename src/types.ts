@@ -13,6 +13,7 @@ export interface Topic {
   title: string;
   description: string;
   color: string;
+  emoji: string;
 }
 
 export interface Question {
