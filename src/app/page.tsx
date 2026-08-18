@@ -6,9 +6,7 @@ import Quiz from '../components/Quiz';
 import Result from '../components/Result';
 import { questions } from '../data/questions';
 import { shuffle } from '../lib/utils';
-import type { Question, QuizResult } from '../types';
-
-const FULL_COUNT = 22;
+import type { Question, QuizResult, TopicId } from '../types';
 
 type View = 'home' | 'quiz' | 'result';
 
@@ -17,8 +15,9 @@ export default function Home() {
   const [quizQuestions, setQuizQuestions] = useState<Question[]>([]);
   const [result, setResult] = useState<QuizResult | null>(null);
 
-  function startTest() {
-    setQuizQuestions(shuffle(questions).slice(0, FULL_COUNT));
+  function startTest(topic: TopicId | null, count: number) {
+    let pool = topic ? questions.filter((q) => q.topic === topic) : questions;
+    setQuizQuestions(shuffle(pool).slice(0, count));
     setResult(null);
     setView('quiz');
   }
@@ -31,9 +30,8 @@ export default function Home() {
   return (
     <div className="container">
       <header className="header">
-        <span className="app-badge">НМТ · Математика · 2026</span>
         <h1>📐 Тест з математики</h1>
-        <p>Повний тест у форматі НМТ: 22 завдання</p>
+        <p>Обери тему та кількість завдань</p>
       </header>
 
       {view === 'home' && <StartScreen onStart={startTest} />}
@@ -45,7 +43,7 @@ export default function Home() {
       {view === 'result' && result && (
         <Result
           answers={result.answers}
-          onRestart={startTest}
+          onRestart={() => setView('home')}
           onHome={() => {
             setView('home');
             setResult(null);
