@@ -1,8 +1,8 @@
 import './globals.css';
 
 export const metadata = {
-  title: 'Тренажер НМТ з математики',
-  description: 'Інтерактивний тренажер для підготовки до НМТ з математики',
+  title: 'Тести НМТ з математики',
+  description: 'Тести для підготовки до НМТ з математики',
 };
 
 export default function RootLayout({ children }) {

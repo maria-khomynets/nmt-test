@@ -7,12 +7,12 @@ export default function StartScreen({ onStartFull, onStartPractice }) {
           Повний тест НМТ (22 завдання, 120 хв)
         </button>
         <button className="btn btn-secondary" onClick={onStartPractice}>
-          Тренування по темах
+          Тест по темах
         </button>
       </div>
       <p className="note">
         Повний тест імітує формат НМТ: 22 завдання з усіх тем, таймер 120 хвилин.
-        Тренування — вибір окремої теми без таймера.
+        Тест по темах — перевірка знань з окремої теми без таймера.
       </p>
     </div>
   );

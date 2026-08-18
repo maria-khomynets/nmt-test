@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react';
 import { formatTime } from '../lib/utils';
 
-const LETTERS = ['А', 'Б', 'В', 'Г', 'Д'];
+const LETTERS = ['А', 'Б', 'В', 'Г'];
 
 export default function Quiz({ questions, timeLimit, onFinish }) {
   const [current, setCurrent] = useState(0);

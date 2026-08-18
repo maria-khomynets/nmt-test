@@ -39,8 +39,8 @@ export default function Home() {
   return (
     <div className="container">
       <header className="header">
-        <h1>📐 Тренажер НМТ з математики</h1>
-        <p>Готуйся до НМТ: повний тест або тренування по темах</p>
+        <h1>📐 Тести НМТ з математики</h1>
+        <p>Готуйся до НМТ: повний тест або тест по темах</p>
       </header>
 
       {view === 'home' && (

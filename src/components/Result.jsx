@@ -1,7 +1,7 @@
 import { formatTime } from '../lib/utils';
 import { topicTitle } from '../data/topics';
 
-const LETTERS = ['А', 'Б', 'В', 'Г', 'Д'];
+const LETTERS = ['А', 'Б', 'В', 'Г'];
 
 function formatAnswer(q, chosen) {
   if (q.type === 'input') {
