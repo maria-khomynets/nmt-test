@@ -14,11 +14,19 @@ export default function Quiz({ questions, onFinish }: QuizProps) {
     questions.map(() => null),
   );
   const [startTime] = useState(() => Date.now());
+  const [elapsed, setElapsed] = useState(0);
+
+  useEffect(() => {
+    const id = setInterval(() => setElapsed(Math.floor((Date.now() - startTime) / 1000)), 1000);
+    return () => clearInterval(id);
+  }, [startTime]);
 
   const q = questions[current];
   const chosen = choices[current];
   const answeredCount = choices.filter((c) => c !== null).length;
+  const correctCount = questions.filter((q, i) => choices[i] !== null && choices[i] === q.answer).length;
   const progress = Math.round((answeredCount / questions.length) * 100);
+  const avgTime = answeredCount > 0 ? (elapsed / answeredCount).toFixed(1) : '0';
 
   function choose(i: number) {
     setChoices((prev) => {
@@ -77,6 +85,23 @@ export default function Quiz({ questions, onFinish }: QuizProps) {
           </button>
         ))}
       </div>
+
+      {answeredCount > 0 && (
+        <div className="quiz-live-stats">
+          <div className="stat-row">
+            <span className="stat-label">Правильних відповідей:</span>
+            <span className="stat-value">{correctCount} з {answeredCount}</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-label">Час:</span>
+            <span className="stat-value">{elapsed} с</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-label">Середній час відповіді:</span>
+            <span className="stat-value">{avgTime} с</span>
+          </div>
+        </div>
+      )}
 
       <div className="quiz-nav">
         <button

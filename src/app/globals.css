@@ -306,6 +306,23 @@ body {
   color: var(--danger);
 }
 
+.quiz-live-stats {
+  margin-bottom: 16px;
+  padding: 12px 14px;
+  background: #f0fdfb;
+  border: 1px solid var(--border);
+  border-radius: 12px;
+}
+
+.quiz-live-stats .stat-row {
+  justify-content: space-between;
+  margin-bottom: 2px;
+}
+
+.quiz-live-stats .stat-row:last-child {
+  margin-bottom: 0;
+}
+
 /* ===== Результат ===== */
 .result-score {
   text-align: center;
