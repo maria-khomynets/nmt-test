@@ -35,5 +35,4 @@ export interface AnswerRecord {
 
 export interface QuizResult {
   answers: AnswerRecord[];
-  timeLeft: number;
 }

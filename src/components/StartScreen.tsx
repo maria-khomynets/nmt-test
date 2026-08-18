@@ -7,19 +7,16 @@ export default function StartScreen({ onStart }: StartScreenProps) {
     <div className="card">
       <h2 className="section-title">Тест НМТ з математики</h2>
       <p className="start-description">
-        У форматі тесту — 22 завдання з усіх тем програми та 120 хвилин часу.
+        У форматі тесту — 22 завдання з усіх тем програми.
         Після завершення ти побачиш результат і розбір кожного завдання.
       </p>
       <button className="btn btn-mode" onClick={onStart}>
         <span className="btn-icon">🎯</span>
         <span className="btn-label">
           <span className="btn-main">Розпочати тест</span>
-          <span className="btn-sub">22 завдання · 120 хв</span>
+          <span className="btn-sub">22 завдання</span>
         </span>
       </button>
-      <p className="note">
-        Час піде одразу після початку. Завершиться автоматично, коли таймер дійде до нуля.
-      </p>
     </div>
   );
 }

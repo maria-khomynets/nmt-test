@@ -1,4 +1,3 @@
-import { formatTime } from '../lib/utils';
 import { topicTitle } from '../data/topics';
 import type { AnswerRecord } from '../types';
 
@@ -10,19 +9,11 @@ function formatAnswer(chosen: number): string {
 
 interface ResultProps {
   answers: AnswerRecord[];
-  timeLeft: number;
-  timeLimit: number | null;
   onRestart: () => void;
   onHome: () => void;
 }
 
-export default function Result({
-  answers,
-  timeLeft,
-  timeLimit,
-  onRestart,
-  onHome,
-}: ResultProps) {
+export default function Result({ answers, onRestart, onHome }: ResultProps) {
   const correct = answers.filter((a) => a.correct).length;
   const total = answers.length;
   const percent = total ? Math.round((correct / total) * 100) : 0;
@@ -44,9 +35,6 @@ export default function Result({
           {correct} правильних із {total}
         </div>
         <div className="sub">{levelText}</div>
-        {timeLimit != null && (
-          <div className="sub">⏱ Витрачено часу: {formatTime(timeLimit - timeLeft)}</div>
-        )}
         <div className="btn-group" style={{ marginTop: 20 }}>
           <button className="btn" onClick={onRestart}>
             Пройти ще раз

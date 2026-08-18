@@ -8,7 +8,6 @@ import { questions } from '../data/questions';
 import { shuffle } from '../lib/utils';
 import type { Question, QuizResult } from '../types';
 
-const FULL_LIMIT = 120 * 60; // 120 хвилин
 const FULL_COUNT = 22;
 
 type View = 'home' | 'quiz' | 'result';
@@ -34,20 +33,18 @@ export default function Home() {
       <header className="header">
         <span className="app-badge">НМТ · Математика · 2026</span>
         <h1>📐 Тест з математики</h1>
-        <p>Повний тест у форматі НМТ: 22 завдання · 120 хвилин</p>
+        <p>Повний тест у форматі НМТ: 22 завдання</p>
       </header>
 
       {view === 'home' && <StartScreen onStart={startTest} />}
 
       {view === 'quiz' && (
-        <Quiz questions={quizQuestions} timeLimit={FULL_LIMIT} onFinish={finishQuiz} />
+        <Quiz questions={quizQuestions} onFinish={finishQuiz} />
       )}
 
       {view === 'result' && result && (
         <Result
           answers={result.answers}
-          timeLeft={result.timeLeft}
-          timeLimit={FULL_LIMIT}
           onRestart={startTest}
           onHome={() => {
             setView('home');

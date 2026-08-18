@@ -1,46 +1,18 @@
-import { useEffect, useRef, useState } from 'react';
-import { formatTime } from '../lib/utils';
+import { useState } from 'react';
 import type { AnswerRecord, Question, QuizResult } from '../types';
 
 const LETTERS = ['А', 'Б', 'В', 'Г'];
 
 interface QuizProps {
   questions: Question[];
-  timeLimit: number | null;
   onFinish: (result: QuizResult) => void;
 }
 
-export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
+export default function Quiz({ questions, onFinish }: QuizProps) {
   const [current, setCurrent] = useState(0);
   const [selected, setSelected] = useState<number | null>(null);
   const [answered, setAnswered] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(timeLimit ?? 0);
   const [answers, setAnswers] = useState<AnswerRecord[]>([]);
-
-  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
-
-  useEffect(() => {
-    if (!timeLimit) return;
-    timerRef.current = setInterval(() => {
-      setTimeLeft((t) => {
-        if (t <= 1) {
-          if (timerRef.current) clearInterval(timerRef.current);
-          return 0;
-        }
-        return t - 1;
-      });
-    }, 1000);
-    return () => {
-      if (timerRef.current) clearInterval(timerRef.current);
-    };
-  }, [timeLimit]);
-
-  useEffect(() => {
-    if (timeLimit && timeLeft === 0) {
-      finishQuiz(answers);
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [timeLeft]);
 
   const q = questions[current];
   const isCorrect = selected === q.answer;
@@ -64,13 +36,8 @@ export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
       setSelected(null);
       setAnswered(false);
     } else {
-      finishQuiz(answers);
+      onFinish({ answers });
     }
-  }
-
-  function finishQuiz(list: AnswerRecord[]) {
-    if (timerRef.current) clearInterval(timerRef.current);
-    onFinish({ answers: list, timeLeft });
   }
 
   const answeredCount = answered ? answers.length + 1 : answers.length;
@@ -82,9 +49,6 @@ export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
         <div className="progress-row">
           <span>
             Завдання {current + 1} з {questions.length}
-          </span>
-          <span className={`timer${timeLeft < 300 ? ' warning' : ''}`}>
-            ⏱ {formatTime(timeLeft)}
           </span>
         </div>
         <div className="progress-bar">
@@ -134,8 +98,6 @@ export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
           </>
         )}
       </div>
-
-      <p className="note">Час спливає автоматично — відповіді збережуться.</p>
     </>
   );
 }
