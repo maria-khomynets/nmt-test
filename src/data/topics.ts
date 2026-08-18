@@ -5,7 +5,7 @@ export const topics: Topic[] = [
     id: 'numbers',
     title: 'Числа і вирази',
     description: 'Дроби, степені, корені, відсотки, властивості чисел',
-    color: '#3b82f6',
+    color: '#7c3aed',
     emoji: '🔢',
   },
   {
@@ -40,7 +40,7 @@ export const topics: Topic[] = [
     id: 'word',
     title: 'Текстові задачі',
     description: 'Рух, робота, суміші, відсоткові задачі',
-    color: '#06b6d4',
+    color: '#059669',
     emoji: '🧮',
   },
 ];
