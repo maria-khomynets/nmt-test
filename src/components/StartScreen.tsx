@@ -1,4 +1,9 @@
-export default function StartScreen({ onStartFull, onStartPractice }) {
+interface StartScreenProps {
+  onStartFull: () => void;
+  onStartPractice: () => void;
+}
+
+export default function StartScreen({ onStartFull, onStartPractice }: StartScreenProps) {
   return (
     <div className="card">
       <h2 className="section-title">Оберіть режим</h2>

@@ -1,4 +1,6 @@
-export const topics = [
+import type { Topic, TopicId } from '../types';
+
+export const topics: Topic[] = [
   {
     id: 'numbers',
     title: 'Числа і вирази',
@@ -37,7 +39,7 @@ export const topics = [
   },
 ];
 
-export const topicTitle = (id) => {
+export const topicTitle = (id: TopicId): string => {
   const t = topics.find((x) => x.id === id);
   return t ? t.title : id;
 };

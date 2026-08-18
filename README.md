@@ -19,7 +19,8 @@
 
 - Next.js 14 (App Router)
 - React 18
-- Банк із 121 завдання — у `src/data/questions.js`
+- TypeScript
+- Банк із 121 завдання — у `src/data/questions.ts`
 ## Локальний запуск
 
 ```bash

@@ -1,29 +1,38 @@
 import { useEffect, useRef, useState } from 'react';
 import { formatTime } from '../lib/utils';
+import type { AnswerRecord, Question, QuizResult } from '../types';
 
 const LETTERS = ['А', 'Б', 'В', 'Г'];
 
-export default function Quiz({ questions, timeLimit, onFinish }) {
-  const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState(null);
-  const [answered, setAnswered] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(timeLimit);
-  const [answers, setAnswers] = useState([]);
+interface QuizProps {
+  questions: Question[];
+  timeLimit: number | null;
+  onFinish: (result: QuizResult) => void;
+}
 
-  const timerRef = useRef(null);
+export default function Quiz({ questions, timeLimit, onFinish }: QuizProps) {
+  const [current, setCurrent] = useState(0);
+  const [selected, setSelected] = useState<number | null>(null);
+  const [answered, setAnswered] = useState(false);
+  const [timeLeft, setTimeLeft] = useState(timeLimit ?? 0);
+  const [answers, setAnswers] = useState<AnswerRecord[]>([]);
+
+  const timerRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   useEffect(() => {
     if (!timeLimit) return;
     timerRef.current = setInterval(() => {
       setTimeLeft((t) => {
         if (t <= 1) {
-          clearInterval(timerRef.current);
+          if (timerRef.current) clearInterval(timerRef.current);
           return 0;
         }
         return t - 1;
       });
     }, 1000);
-    return () => clearInterval(timerRef.current);
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [timeLimit]);
 
   useEffect(() => {
@@ -59,8 +68,8 @@ export default function Quiz({ questions, timeLimit, onFinish }) {
     }
   }
 
-  function finishQuiz(list) {
-    clearInterval(timerRef.current);
+  function finishQuiz(list: AnswerRecord[]) {
+    if (timerRef.current) clearInterval(timerRef.current);
     onFinish({ answers: list, timeLeft });
   }
 

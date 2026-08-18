@@ -1,7 +1,9 @@
 // Банк завдань для тестів НМТ з математики
 // Усі завдання мають 4 варіанти відповіді (А–Г), answer — індекс правильної відповіді
 
-export const questions = [
+import type { Question } from '../types';
+
+export const questions: Question[] = [
   {
     "id": 1,
     "topic": "numbers",

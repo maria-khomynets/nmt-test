@@ -1,8 +1,14 @@
 import { topics } from '../data/topics';
 import { questions } from '../data/questions';
+import type { TopicId } from '../types';
 
-export default function TopicSelect({ onSelect, onBack }) {
-  const countByTopic = (topicId) =>
+interface TopicSelectProps {
+  onSelect: (id: TopicId) => void;
+  onBack: () => void;
+}
+
+export default function TopicSelect({ onSelect, onBack }: TopicSelectProps) {
+  const countByTopic = (topicId: TopicId): number =>
     questions.filter((q) => q.topic === topicId).length;
 
   return (
@@ -21,9 +27,7 @@ export default function TopicSelect({ onSelect, onBack }) {
               onClick={() => onSelect(t.id)}
             >
               <div className="topic-title">{t.title}</div>
-              <div className="topic-count">
-                {countByTopic(t.id)} завдань
-              </div>
+              <div className="topic-count">{countByTopic(t.id)} завдань</div>
             </div>
           ))}
         </div>
