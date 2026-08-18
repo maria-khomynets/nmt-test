@@ -323,10 +323,36 @@ body {
   line-height: 1.1;
 }
 
-.result-score .correct-count {
-  font-size: 1.15rem;
+.result-stats {
+  margin: 16px 0;
+}
+
+.stat-row {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 4px;
+  font-size: 0.95rem;
+}
+
+.stat-label {
+  color: var(--muted);
+}
+
+.stat-value {
   font-weight: 700;
-  margin-top: 6px;
+  color: var(--text);
+}
+
+.stat-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--success);
+  background: #f0fdf4;
+  border: 1px solid #bbf7d0;
 }
 
 .result-score .sub {

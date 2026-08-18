@@ -35,4 +35,5 @@ export interface AnswerRecord {
 
 export interface QuizResult {
   answers: AnswerRecord[];
+  totalTime: number;
 }

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Question, QuizResult } from '../types';
 
 const LETTERS = ['А', 'Б', 'В', 'Г'];
@@ -13,6 +13,7 @@ export default function Quiz({ questions, onFinish }: QuizProps) {
   const [choices, setChoices] = useState<(number | null)[]>(() =>
     questions.map(() => null),
   );
+  const [startTime] = useState(() => Date.now());
 
   const q = questions[current];
   const chosen = choices[current];
@@ -38,6 +39,7 @@ export default function Quiz({ questions, onFinish }: QuizProps) {
       return;
     }
     onFinish({
+      totalTime: Math.round((Date.now() - startTime) / 1000),
       answers: questions.map((question, i) => {
         const c = choices[i];
         return {

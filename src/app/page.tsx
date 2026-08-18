@@ -43,6 +43,7 @@ export default function Home() {
       {view === 'result' && result && (
         <Result
           answers={result.answers}
+          totalTime={result.totalTime}
           onRestart={() => setView('home')}
           onHome={() => {
             setView('home');

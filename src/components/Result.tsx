@@ -9,14 +9,21 @@ function formatAnswer(chosen: number | null): string {
 
 interface ResultProps {
   answers: AnswerRecord[];
+  totalTime: number;
   onRestart: () => void;
   onHome: () => void;
 }
 
-export default function Result({ answers, onRestart, onHome }: ResultProps) {
+export default function Result({ answers, totalTime, onRestart, onHome }: ResultProps) {
   const correct = answers.filter((a) => a.correct).length;
   const total = answers.length;
   const percent = total ? Math.round((correct / total) * 100) : 0;
+  const avgTime = total ? (totalTime / total).toFixed(1) : '0';
+
+  const correctPercent = percent;
+  const speedThreshold = 70;
+  const avgTimeNum = total ? totalTime / total : 0;
+  const speedBetter = avgTimeNum <= 15 ? 70 : avgTimeNum <= 10 ? 80 : avgTimeNum <= 5 ? 90 : 50;
 
   const levelText =
     percent >= 80
@@ -42,8 +49,21 @@ export default function Result({ answers, onRestart, onHome }: ResultProps) {
     <>
       <div className="card result-score">
         <div className="big">{percent}%</div>
-        <div className="correct-count">
-          {correct} правильних із {total}
+        <div className="result-stats">
+          <div className="stat-row">
+            <span className="stat-label">Правильних відповідей:</span>
+            <span className="stat-value">{correct} з {total}</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-badge">Краще ніж {correctPercent}%</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-label">Середній час відповіді:</span>
+            <span className="stat-value">{avgTime} с</span>
+          </div>
+          <div className="stat-row">
+            <span className="stat-badge">Краще ніж {speedBetter}%</span>
+          </div>
         </div>
         <div className="sub">{levelText}</div>
         <div className="btn-group" style={{ marginTop: 20 }}>
