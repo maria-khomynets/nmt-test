@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import type { AnswerRecord, Question, QuizResult } from '../types';
+import type { Question, QuizResult } from '../types';
 
 const LETTERS = ['А', 'Б', 'В', 'Г'];
 
@@ -10,94 +10,101 @@ interface QuizProps {
 
 export default function Quiz({ questions, onFinish }: QuizProps) {
   const [current, setCurrent] = useState(0);
-  const [selected, setSelected] = useState<number | null>(null);
-  const [answered, setAnswered] = useState(false);
-  const [answers, setAnswers] = useState<AnswerRecord[]>([]);
+  const [choices, setChoices] = useState<(number | null)[]>(() =>
+    questions.map(() => null),
+  );
 
   const q = questions[current];
-  const isCorrect = selected === q.answer;
-
-  function submitAnswer() {
-    if (answered || selected === null) return;
-    setAnswered(true);
-    setAnswers((prev) => [
-      ...prev,
-      {
-        question: q,
-        chosen: selected,
-        correct: isCorrect,
-      },
-    ]);
-  }
-
-  function next() {
-    if (current + 1 < questions.length) {
-      setCurrent(current + 1);
-      setSelected(null);
-      setAnswered(false);
-    } else {
-      onFinish({ answers });
-    }
-  }
-
-  const answeredCount = answered ? answers.length + 1 : answers.length;
+  const chosen = choices[current];
+  const answeredCount = choices.filter((c) => c !== null).length;
   const progress = Math.round((answeredCount / questions.length) * 100);
 
+  function choose(i: number) {
+    setChoices((prev) => {
+      const next = [...prev];
+      next[current] = i;
+      return next;
+    });
+  }
+
+  function finish() {
+    const unanswered = questions.length - answeredCount;
+    if (
+      unanswered > 0 &&
+      !window.confirm(
+        `Без відповіді залишилось ${unanswered} питань. Завершити тест?`,
+      )
+    ) {
+      return;
+    }
+    onFinish({
+      answers: questions.map((question, i) => {
+        const c = choices[i];
+        return {
+          question,
+          chosen: c,
+          correct: c !== null && c === question.answer,
+        };
+      }),
+    });
+  }
+
   return (
-    <>
-      <div className="card">
-        <div className="progress-row">
-          <span>
-            Завдання {current + 1} з {questions.length}
-          </span>
-        </div>
-        <div className="progress-bar">
-          <div style={{ width: `${progress}%` }} />
-        </div>
-
-        <p className="question-text">{q.question}</p>
-
-        <div className="options">
-          {q.options.map((opt, i) => {
-            let cls = 'option';
-            if (answered) {
-              if (i === q.answer) cls += ' correct';
-              else if (i === selected) cls += ' wrong';
-            }
-            return (
-              <button
-                key={i}
-                className={cls}
-                disabled={answered}
-                onClick={() => setSelected(i)}
-              >
-                <span className="letter">{LETTERS[i]}</span>
-                <span>{opt}</span>
-              </button>
-            );
-          })}
-        </div>
-
-        {!answered && (
-          <button className="btn" onClick={submitAnswer} disabled={selected === null}>
-            Відповісти
-          </button>
-        )}
-
-        {answered && (
-          <>
-            <div className={`feedback ${isCorrect ? 'correct' : 'wrong'}`}>
-              {isCorrect ? '✓ Правильно!' : '✗ Неправильно.'}
-              <div className="explanation">
-                <strong>Розв'язання:</strong> {q.explanation}
-              </div>
-            </div>
-            <button className="btn" onClick={next}>
-              {current + 1 < questions.length ? 'Наступне завдання' : 'Завершити тест'}
-            </button>
-          </>
-        )}
+    <div className="card">
+      <div className="progress-row">
+        <span>
+          Завдання {current + 1} з {questions.length}
+        </span>
+        <span>Відповідей: {answeredCount}</span>
       </div>
-    </>
+      <div className="progress-bar">
+        <div style={{ width: `${progress}%` }} />
+      </div>
+
+      <p className="question-text">{q.question}</p>
+
+      <div className="options">
+        {q.options.map((opt, i) => (
+          <button
+            key={i}
+            className={chosen === i ? 'option selected' : 'option'}
+            onClick={() => choose(i)}
+          >
+            <span className="letter">{LETTERS[i]}</span>
+            <span>{opt}</span>
+          </button>
+        ))}
+      </div>
+
+      <div className="quiz-nav">
+        <button
+          className="btn btn-secondary"
+          onClick={() => setCurrent((c) => Math.max(0, c - 1))}
+          disabled={current === 0}
+        >
+          ← Назад
+        </button>
+        <button
+          className="btn"
+          onClick={() =>
+            setCurrent((c) => Math.min(questions.length - 1, c + 1))
+          }
+          disabled={current === questions.length - 1}
+        >
+          Далі →
+        </button>
+      </div>
+
+      {questions.length - answeredCount > 0 && (
+        <p className="quiz-warn">
+          Без відповіді: {questions.length - answeredCount}. Питання без
+          відповіді зараховуються як помилка.
+        </p>
+      )}
+
+      <button className="btn" onClick={finish}>
+        Завершити тест
+      </button>
+    </div>
   );
 }

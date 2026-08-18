@@ -29,7 +29,7 @@ export interface Question {
 
 export interface AnswerRecord {
   question: Question;
-  chosen: number;
+  chosen: number | null;
   correct: boolean;
 }
 

@@ -1,17 +1,17 @@
 :root {
-  --bg-top: #e7f6f4;
-  --bg-bottom: #f5fbfa;
+  --bg-top: #e3f4f1;
+  --bg-bottom: #f3faf8;
   --card: #ffffff;
   --text: #0f172a;
-  --muted: #64748b;
-  --primary: #0d9488;
-  --primary-2: #06b6d4;
+  --muted: #5d6b76;
+  --primary: #0f766e;
+  --primary-2: #14b8a6;
   --success: #16a34a;
   --danger: #dc2626;
-  --border: #d7e9e5;
+  --border: #cfebe6;
   --radius: 16px;
-  --shadow: 0 1px 2px rgba(13, 148, 136, 0.05), 0 8px 24px rgba(13, 148, 136, 0.09);
-  --shadow-hover: 0 2px 4px rgba(13, 148, 136, 0.08), 0 14px 32px rgba(13, 148, 136, 0.16);
+  --shadow: 0 1px 2px rgba(20, 184, 166, 0.06), 0 8px 24px rgba(20, 184, 166, 0.1);
+  --shadow-hover: 0 2px 4px rgba(20, 184, 166, 0.08), 0 14px 32px rgba(20, 184, 166, 0.18);
 }
 
 * {
@@ -48,7 +48,7 @@ body {
   padding: 5px 14px;
   margin-bottom: 14px;
   border-radius: 999px;
-  background: rgba(13, 148, 136, 0.1);
+  background: rgba(20, 184, 166, 0.12);
   color: var(--primary);
   font-size: 0.78rem;
   font-weight: 700;
@@ -61,7 +61,7 @@ body {
   font-size: 2.1rem;
   font-weight: 800;
   letter-spacing: -0.03em;
-  background: linear-gradient(120deg, #0d9488, #06b6d4 55%, #0ea5e9);
+  background: linear-gradient(120deg, #0f766e, #14b8a6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -102,12 +102,12 @@ body {
   border-radius: 12px;
   cursor: pointer;
   transition: transform 0.08s ease, box-shadow 0.15s ease, filter 0.15s ease;
-  box-shadow: 0 6px 16px rgba(13, 148, 136, 0.28);
+  box-shadow: 0 6px 16px rgba(20, 184, 166, 0.32);
 }
 
 .btn:hover {
   filter: brightness(1.06);
-  box-shadow: 0 8px 22px rgba(13, 148, 136, 0.36);
+  box-shadow: 0 8px 22px rgba(20, 184, 166, 0.4);
 }
 
 .btn:active {
@@ -315,6 +315,17 @@ body {
   transform: scale(0.995);
 }
 
+.option.selected {
+  border-color: var(--primary);
+  background: #f0fdfb;
+  box-shadow: 0 0 0 1px var(--primary) inset;
+}
+
+.option.selected .letter {
+  background: var(--primary);
+  color: #fff;
+}
+
 .option .letter {
   flex-shrink: 0;
   width: 32px;
@@ -351,6 +362,19 @@ body {
 
 .option:disabled {
   cursor: default;
+}
+
+.quiz-nav {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.quiz-warn {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: var(--danger);
 }
 
 /* ===== Зворотний зв'язок після відповіді ===== */
@@ -396,7 +420,7 @@ body {
   font-size: 3.6rem;
   font-weight: 800;
   letter-spacing: -0.04em;
-  background: linear-gradient(120deg, #0d9488, #06b6d4 55%, #0ea5e9);
+  background: linear-gradient(120deg, #0f766e, #14b8a6);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -421,6 +445,46 @@ body {
   font-size: 0.85rem;
   font-weight: 600;
   color: #fff;
+}
+
+/* ===== Аналіз помилок за темами ===== */
+.topic-row {
+  margin-bottom: 16px;
+}
+
+.topic-row:last-child {
+  margin-bottom: 0;
+}
+
+.topic-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 6px;
+  font-size: 0.95rem;
+  font-weight: 600;
+}
+
+.topic-head .ok {
+  color: var(--success);
+}
+
+.topic-head .no {
+  color: var(--danger);
+}
+
+.topic-bar {
+  height: 8px;
+  background: #e2e8f0;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.topic-bar > div {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.3s ease;
 }
 
 /* ===== Розбір завдань ===== */
